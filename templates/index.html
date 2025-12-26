@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>跑团体验反馈</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f7;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: #0071e3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 25px;
+            font-weight: 500;
+        }
+
+        .btn:active {
+            background-color: #005bb5;
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+        }
+
+        /* 刺激物卡片样式 */
+        .stimuli-card {
+            background: #f0f8ff;
+            border-left: 5px solid #0071e3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        .stimuli-highlight {
+            font-weight: bold;
+            color: #0056b3;
+        }
+
+        /* 表单元素 */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .likert-group {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .likert-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+
+        .likert-options span {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* 支付金额大字显示 */
+        .final-price {
+            font-size: 2.5rem;
+            color: #d0021b;
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .payment-instruction {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <form id="expForm">
+            <!-- 步骤 1: 欢迎页 -->
+            <div class="step active" id="step1">
+                <h2>跑团体验反馈</h2>
+                <p>感谢参与本次跑团！为了改进我们的服务质量，需要耽误您 2 分钟时间填写反馈。</p>
+                <p style="color: #666; font-size: 0.9rem;">* 所有数据仅用于内部服务优化与研究，我们将严格保密。</p>
+                <button type="button" class="btn" onclick="nextStep(2)">开始填写</button>
+            </div>
+
+            <!-- 步骤 2: 刺激物呈现 (随机化) -->
+            <div class="step" id="step2">
+                <h2>关于本次跑团的制作</h2>
+                <p>请仔细阅读下方关于本次跑团幕后制作的说明：</p>
+
+                <div id="stimuli-text" class="stimuli-card">
+                    <!-- JS 会在这里插入 A 或 B 的文案 -->
+                </div>
+
+                <div style="margin-top:20px; font-size: 0.85rem; color: #888;">
+                    <input type="checkbox" id="readConfirm" onchange="toggleBtn('btn-step2')"> 我已阅读上述说明
+                </div>
+                <button type="button" class="btn" id="btn-step2" onclick="nextStep(3)" disabled>下一步</button>
+            </div>
+
+            <!-- 步骤 3: 核心因变量 WTP -->
+            <div class="step" id="step3">
+                <h2>支付金额确认</h2>
+                <p>为了维持店铺运营，我们设定了 <strong>29.9 元</strong> 的基础成本价。</p>
+                <p>基于您刚才的体验以及对制作过程的了解，您可以在此基础上增加任意金额（或不增加），作为本次跑团的最终服务费。</p>
+
+                <label for="wtp">您愿意支付的总金额 (元)：</label>
+                <input type="number" id="wtp" step="0.1" min="29.9" placeholder="最低 29.9，上不封顶">
+
+                <button type="button" class="btn" onclick="validateWTP()">确认金额</button>
+            </div>
+
+            <!-- 步骤 4: 机制测量 -->
+            <div class="step" id="step4">
+                <h2>体验感受</h2>
+                <p>请根据您的真实感受打分 (1=非常不同意，7=非常同意)</p>
+
+                <div class="likert-group">
+                    <label>Q1. 我认为 GM 为这次跑团付出了巨大的脑力和精力。 <span style="color:#0071e3; font-weight:bold;"
+                            id="val_q_effort">(4)</span></label>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        1 <input type="range" id="q_effort" min="1" max="7" step="1" value="4"
+                            style="flex-grow:1; margin:0 10px;"
+                            oninput="document.getElementById('val_q_effort').innerText = '(' + this.value + ')'"> 7
+                    </div>
+                    <div class="likert-options"><span>非常不同意</span><span>非常同意</span></div>
+                </div>
+
+                <div class="likert-group">
+                    <label>Q2. 了解了制作方式后，我觉得复刻这样一次跑团体验并不是很难。 <span style="color:#0071e3; font-weight:bold;"
+                            id="val_q_demystification">(4)</span></label>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        1 <input type="range" id="q_demystification" min="1" max="7" step="1" value="4"
+                            style="flex-grow:1; margin:0 10px;"
+                            oninput="document.getElementById('val_q_demystification').innerText = '(' + this.value + ')'">
+                        7
+                    </div>
+                    <div class="likert-options"><span>非常不同意</span><span>非常同意</span></div>
+                </div>
+
+                <div class="likert-group">
+                    <label>Q3. 考虑到制作过程，我认为收取较高的费用是公平的。 <span style="color:#0071e3; font-weight:bold;"
+                            id="val_q_fairness">(4)</span></label>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        1 <input type="range" id="q_fairness" min="1" max="7" step="1" value="4"
+                            style="flex-grow:1; margin:0 10px;"
+                            oninput="document.getElementById('val_q_fairness').innerText = '(' + this.value + ')'"> 7
+                    </div>
+                    <div class="likert-options"><span>非常不同意</span><span>非常同意</span></div>
+                </div>
+
+                <div class="likert-group">
+                    <label>Q4. 本次跑团的剧情连贯性和沉浸感非常好。 <span style="color:#0071e3; font-weight:bold;"
+                            id="val_q_quality">(4)</span></label>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        1 <input type="range" id="q_quality" min="1" max="7" step="1" value="4"
+                            style="flex-grow:1; margin:0 10px;"
+                            oninput="document.getElementById('val_q_quality').innerText = '(' + this.value + ')'"> 7
+                    </div>
+                    <div class="likert-options"><span>非常不同意</span><span>非常同意</span></div>
+                </div>
+
+                <button type="button" class="btn" onclick="nextStep(5)">下一步</button>
+            </div>
+
+            <!-- 步骤 5: 操纵检查与开放题 -->
+            <div class="step" id="step5">
+                <h2>最后确认</h2>
+
+                <label>回顾刚才的说明，本次跑团的内容主要是如何生产的？</label>
+                <select id="manipulation_check" style="width:100%; padding:10px; margin-bottom:15px;">
+                    <option value="" disabled selected>请选择...</option>
+                    <option value="Human">完全由 GM 人工生成</option>
+                    <option value="AI">由 GM 和 AI 协作生成</option>
+                    <option value="Unsure">没注意/不记得了</option>
+                </select>
+
+                <label>您选择支付该金额的最主要原因是什么？(选填)</label>
+                <textarea id="reason" rows="3" placeholder="例如：觉得GM很辛苦，或者觉得AI做的很有趣..."></textarea>
+
+                <button type="button" class="btn" onclick="submitData()">提交并查看付款码</button>
+            </div>
+
+            <!-- 步骤 6: 支付展示页 -->
+            <div class="step" id="step6">
+                <h2>提交成功</h2>
+                <p class="payment-instruction">请向店员出示此页面并扫码付款</p>
+
+                <div class="final-price">¥ <span id="display-price">0.0</span></div>
+
+                <div style="text-align:center; margin-top:30px;">
+                    <p>感谢您的支持！<br>您的反馈对我们非常重要。</p>
+                    <p style="font-size:0.8rem; color:#999;">(请勿关闭此页面，直到完成付款)</p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // 随机分配组别 (A=Control/Human, B=Exp/AI)
+        // 优先读取 URL 参数 ?c=A 或 ?c=B (便于测试)
+        // 否则读取本地存储 (保持用户一致性)
+        // 如果都没有，则随机生成
+        const urlParams = new URLSearchParams(window.location.search);
+        let condition = urlParams.get('c');
+
+        if (condition === 'A' || condition === 'B') {
+            // 如果 URL 指定了有效组别，强制更新本地存储
+            localStorage.setItem('exp_condition', condition);
+        } else {
+            // 否则尝试读取本地存储
+            condition = localStorage.getItem('exp_condition');
+            if (!condition) {
+                condition = Math.random() > 0.5 ? 'A' : 'B';
+                localStorage.setItem('exp_condition', condition);
+            }
+        }
+
+        // 设置刺激物文案
+        const stimuliDiv = document.getElementById('stimuli-text');
+
+        if (condition === 'A') {
+            // Condition A: 纯人工
+            stimuliDiv.innerHTML = `
+            <p>刚才你参与的这场跑团中，剧情推进和你所接触到的所有 NPC 对话，是由 <span class="stimuli-highlight">主持人本人</span> 在游戏过程中完成的。</p>
+            <p>在游戏过程中，<span class="stimuli-highlight">主持人独立参与</span> 内容的即时生成，根据玩家的选择不断展开剧情，并塑造 NPC 的性格与回应方式，以形成完整、连贯的跑团体验。</p>
+        `;
+        } else {
+            // Condition B: 人机协作
+            stimuliDiv.innerHTML = `
+            <p>刚才你参与的这场跑团中，剧情推进和你所接触到的所有 NPC 对话，是由 <span class="stimuli-highlight">主持人和一个公开的 AI 大模型</span> 协作完成的。</p>
+            <p>在游戏过程中，<span class="stimuli-highlight">主持人与 AI 共同参与</span> 内容的即时生成，根据玩家的选择不断展开剧情，并塑造 NPC 的性格与回应方式，以形成完整、连贯的跑团体验。</p>
+        `;
+        }
+
+        function nextStep(stepNum) {
+            // 隐藏所有 step
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            // 显示目标 step
+            document.getElementById('step' + stepNum).classList.add('active');
+            // 滚动到顶部
+            window.scrollTo(0, 0);
+        }
+
+        function toggleBtn(btnId) {
+            const btn = document.getElementById(btnId);
+            btn.disabled = !btn.disabled;
+        }
+
+        function validateWTP() {
+            const amount = parseFloat(document.getElementById('wtp').value);
+            if (isNaN(amount) || amount < 29.9) {
+                alert("为了覆盖基础成本，金额不能低于 29.9 元哦");
+                return;
+            }
+            nextStep(4);
+        }
+
+        function submitData() {
+            const wtp = document.getElementById('wtp').value;
+            const maniCheck = document.getElementById('manipulation_check').value;
+
+            if (!maniCheck) {
+                alert("请回答关于内容生产方式的问题");
+                return;
+            }
+
+            const data = {
+                condition: condition,
+                wtp: wtp,
+                q_effort: document.getElementById('q_effort').value,
+                q_demystification: document.getElementById('q_demystification').value,
+                q_fairness: document.getElementById('q_fairness').value,
+                q_quality: document.getElementById('q_quality').value,
+                manipulation_check: maniCheck,
+                reason: document.getElementById('reason').value
+            };
+
+            // 发送数据到后台
+            fetch('/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    // 显示最终金额
+                    document.getElementById('display-price').innerText = wtp;
+                    nextStep(6);
+                    // 实验结束，清除本地存储的 condition，以便下次这是新用户
+                    localStorage.removeItem('exp_condition');
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert("提交失败，请联系店员。");
+                });
+        }
+    </script>
+
+</body>
+
+</html>

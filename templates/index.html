@@ -187,23 +187,24 @@
                 <p>请根据您的真实感受打分 (1=非常不同意，7=非常同意)</p>
 
                 <div class="likert-group">
-                    <label>Q1. 我认为 GM 为这次跑团付出了巨大的脑力和精力。 <span style="color:#0071e3; font-weight:bold;"
-                            id="val_q_effort">(4)</span></label>
+                    <label>Q1. 我认为 主持人 为这次跑团付出了巨大的脑力和精力。 <span style="color:#0071e3; font-weight:bold;"
+                            id="val_q_effort">(请滑动选择)</span></label>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        1 <input type="range" id="q_effort" min="1" max="7" step="1" value="4"
-                            style="flex-grow:1; margin:0 10px;"
-                            oninput="document.getElementById('val_q_effort').innerText = '(' + this.value + ')'"> 7
+                        1 <input type="range" id="q_effort" min="1" max="7" step="1" value="4" data-touched="false"
+                            style="flex-grow:1; margin:0 10px; opacity: 0.5;"
+                            oninput="this.dataset.touched = 'true'; this.style.opacity = '1'; document.getElementById('val_q_effort').innerText = '(' + this.value + ')'">
+                        7
                     </div>
                     <div class="likert-options"><span>非常不同意</span><span>非常同意</span></div>
                 </div>
 
                 <div class="likert-group">
                     <label>Q2. 了解了制作方式后，我觉得复刻这样一次跑团体验并不是很难。 <span style="color:#0071e3; font-weight:bold;"
-                            id="val_q_demystification">(4)</span></label>
+                            id="val_q_demystification">(请滑动选择)</span></label>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         1 <input type="range" id="q_demystification" min="1" max="7" step="1" value="4"
-                            style="flex-grow:1; margin:0 10px;"
-                            oninput="document.getElementById('val_q_demystification').innerText = '(' + this.value + ')'">
+                            data-touched="false" style="flex-grow:1; margin:0 10px; opacity: 0.5;"
+                            oninput="this.dataset.touched = 'true'; this.style.opacity = '1'; document.getElementById('val_q_demystification').innerText = '(' + this.value + ')'">
                         7
                     </div>
                     <div class="likert-options"><span>非常不同意</span><span>非常同意</span></div>
@@ -211,27 +212,29 @@
 
                 <div class="likert-group">
                     <label>Q3. 考虑到制作过程，我认为收取较高的费用是公平的。 <span style="color:#0071e3; font-weight:bold;"
-                            id="val_q_fairness">(4)</span></label>
+                            id="val_q_fairness">(请滑动选择)</span></label>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        1 <input type="range" id="q_fairness" min="1" max="7" step="1" value="4"
-                            style="flex-grow:1; margin:0 10px;"
-                            oninput="document.getElementById('val_q_fairness').innerText = '(' + this.value + ')'"> 7
+                        1 <input type="range" id="q_fairness" min="1" max="7" step="1" value="4" data-touched="false"
+                            style="flex-grow:1; margin:0 10px; opacity: 0.5;"
+                            oninput="this.dataset.touched = 'true'; this.style.opacity = '1'; document.getElementById('val_q_fairness').innerText = '(' + this.value + ')'">
+                        7
                     </div>
                     <div class="likert-options"><span>非常不同意</span><span>非常同意</span></div>
                 </div>
 
                 <div class="likert-group">
                     <label>Q4. 本次跑团的剧情连贯性和沉浸感非常好。 <span style="color:#0071e3; font-weight:bold;"
-                            id="val_q_quality">(4)</span></label>
+                            id="val_q_quality">(请滑动选择)</span></label>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        1 <input type="range" id="q_quality" min="1" max="7" step="1" value="4"
-                            style="flex-grow:1; margin:0 10px;"
-                            oninput="document.getElementById('val_q_quality').innerText = '(' + this.value + ')'"> 7
+                        1 <input type="range" id="q_quality" min="1" max="7" step="1" value="4" data-touched="false"
+                            style="flex-grow:1; margin:0 10px; opacity: 0.5;"
+                            oninput="this.dataset.touched = 'true'; this.style.opacity = '1'; document.getElementById('val_q_quality').innerText = '(' + this.value + ')'">
+                        7
                     </div>
                     <div class="likert-options"><span>非常不同意</span><span>非常同意</span></div>
                 </div>
 
-                <button type="button" class="btn" onclick="nextStep(5)">下一步</button>
+                <button type="button" class="btn" onclick="validateStep4()">下一步</button>
             </div>
 
             <!-- 步骤 5: 操纵检查与开放题 -->
@@ -241,13 +244,13 @@
                 <label>回顾刚才的说明，本次跑团的内容主要是如何生产的？</label>
                 <select id="manipulation_check" style="width:100%; padding:10px; margin-bottom:15px;">
                     <option value="" disabled selected>请选择...</option>
-                    <option value="Human">完全由 GM 人工生成</option>
-                    <option value="AI">由 GM 和 AI 协作生成</option>
+                    <option value="Human">完全由 主持人 人工生成</option>
+                    <option value="AI">由 主持人 和 AI 协作生成</option>
                     <option value="Unsure">没注意/不记得了</option>
                 </select>
 
                 <label>您选择支付该金额的最主要原因是什么？(选填)</label>
-                <textarea id="reason" rows="3" placeholder="例如：觉得GM很辛苦，或者觉得AI做的很有趣..."></textarea>
+                <textarea id="reason" rows="3" placeholder="例如：觉得主持人很辛苦，或者觉得不是很值得..."></textarea>
 
                 <button type="button" class="btn" onclick="submitData()">提交并查看付款码</button>
             </div>
@@ -274,6 +277,11 @@
         // 如果都没有，则随机生成
         const urlParams = new URLSearchParams(window.location.search);
         let condition = urlParams.get('c');
+
+        // Allow case-insensitive check (e.g. ?c=a -> A)
+        if (condition) {
+            condition = condition.toUpperCase();
+        }
 
         if (condition === 'A' || condition === 'B') {
             // 如果 URL 指定了有效组别，强制更新本地存储
@@ -325,6 +333,18 @@
                 return;
             }
             nextStep(4);
+        }
+
+        function validateStep4() {
+            const ids = ['q_effort', 'q_demystification', 'q_fairness', 'q_quality'];
+            for (let id of ids) {
+                const el = document.getElementById(id);
+                if (el.dataset.touched !== 'true') {
+                    alert("请滑动所有滑块进行评分");
+                    return;
+                }
+            }
+            nextStep(5);
         }
 
         function submitData() {

@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 # 数据存储文件
-DATA_FILE = 'experiment_data.csv'
+DATA_FILE = 'data/experiment_data.csv'
 
 # 初始化 CSV 文件头（如果文件不存在）
 def init_db():

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>跑团体验反馈</title>
+    <title>游戏体验反馈</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -148,16 +148,16 @@
         <form id="expForm">
             <!-- 步骤 1: 欢迎页 -->
             <div class="step active" id="step1">
-                <h2>跑团体验反馈</h2>
-                <p>感谢参与本次跑团！为了改进我们的服务质量，需要耽误您 2 分钟时间填写反馈。</p>
+                <h2>游戏体验反馈</h2>
+                <p>感谢参与本次游戏！为了改进我们的服务质量，需要耽误您 2 分钟时间填写反馈。</p>
                 <p style="color: #666; font-size: 0.9rem;">* 所有数据仅用于内部服务优化与研究，我们将严格保密。</p>
                 <button type="button" class="btn" onclick="nextStep(2)">开始填写</button>
             </div>
 
             <!-- 步骤 2: 刺激物呈现 (随机化) -->
             <div class="step" id="step2">
-                <h2>关于本次跑团的制作</h2>
-                <p>请仔细阅读下方关于本次跑团幕后制作的说明：</p>
+                <h2>关于本次游戏的制作</h2>
+                <p>请仔细阅读下方关于本次游戏幕后制作的说明：</p>
 
                 <div id="stimuli-text" class="stimuli-card">
                     <!-- JS 会在这里插入 A 或 B 的文案 -->
@@ -172,11 +172,11 @@
             <!-- 步骤 3: 核心因变量 WTP -->
             <div class="step" id="step3">
                 <h2>支付金额确认</h2>
-                <p>为了维持店铺运营，我们设定了 <strong>29.9 元</strong> 的基础成本价。</p>
-                <p>基于您刚才的体验以及对制作过程的了解，您可以在此基础上增加任意金额（或不增加），作为本次跑团的最终服务费。</p>
+                <p>为了维持店铺运营，我们设定了 <strong> 25 元</strong> 的基础成本价。</p>
+                <p>基于您刚才的体验以及对制作过程的了解，您可以在此基础上增加任意金额（或不增加），作为本次游戏的最终服务费。</p>
                 <p><strong>请你先独立思考，不要与其他玩家讨论。</strong></p>
-                <label for="wtp">您愿意支付的总金额 (元)：</label>
-                <input type="number" id="wtp" step="0.1" min="29.9" placeholder="最低 29.9，上不封顶">
+                <label for="wtp">您愿意为本场游戏支付的总金额 (元)：</label>
+                <input type="number" id="wtp" step="0.1" min="25" placeholder="最低 25，上不封顶">
 
                 <button type="button" class="btn" onclick="validateWTP()">确认金额</button>
             </div>
@@ -187,7 +187,7 @@
                 <p>请根据您的真实感受打分 (1=非常不同意，7=非常同意)</p>
 
                 <div class="likert-group">
-                    <label>Q1. 我认为 主持人 为这次跑团付出了巨大的脑力和精力。 <span style="color:#0071e3; font-weight:bold;"
+                    <label>Q1. 我认为说书人为这次游戏付出了巨大的脑力和精力。 <span style="color:#0071e3; font-weight:bold;"
                             id="val_q_effort">(请滑动选择)</span></label>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         1 <input type="range" id="q_effort" min="1" max="7" step="1" value="4" data-touched="false"
@@ -199,7 +199,7 @@
                 </div>
 
                 <div class="likert-group">
-                    <label>Q2. 了解了制作方式后，我觉得复刻这样一次跑团体验并不是很难。 <span style="color:#0071e3; font-weight:bold;"
+                    <label>Q2. 了解了制作方式后，我觉得复刻这样一次游戏体验并不是很难。 <span style="color:#0071e3; font-weight:bold;"
                             id="val_q_demystification">(请滑动选择)</span></label>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         1 <input type="range" id="q_demystification" min="1" max="7" step="1" value="4"
@@ -223,7 +223,7 @@
                 </div>
 
                 <div class="likert-group">
-                    <label>Q4. 本次跑团的剧情连贯性和沉浸感非常好。 <span style="color:#0071e3; font-weight:bold;"
+                    <label>Q4. 本次游戏的平衡性与娱乐性非常好。 <span style="color:#0071e3; font-weight:bold;"
                             id="val_q_quality">(请滑动选择)</span></label>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         1 <input type="range" id="q_quality" min="1" max="7" step="1" value="4" data-touched="false"
@@ -241,16 +241,16 @@
             <div class="step" id="step5">
                 <h2>最后确认</h2>
 
-                <label>回顾刚才的说明，本次跑团的内容主要是如何生产的？</label>
+                <label>回顾刚才的说明，本次游戏的内容主要是如何生产的？</label>
                 <select id="manipulation_check" style="width:100%; padding:10px; margin-bottom:15px;">
                     <option value="" disabled selected>请选择...</option>
-                    <option value="Human">完全由 主持人 人工生成</option>
-                    <option value="AI">由 主持人 和 AI 协作生成</option>
+                    <option value="Human">完全由说书人独立配置与把控</option>
+                    <option value="AI">由说书人和 AI 协作完成</option>
                     <option value="Unsure">没注意/不记得了</option>
                 </select>
 
                 <label>您选择支付该金额的最主要原因是什么？(选填)</label>
-                <textarea id="reason" rows="3" placeholder="例如：觉得主持人很辛苦，或者觉得不是很值得..."></textarea>
+                <textarea id="reason" rows="3" placeholder="例如：觉得说书人很辛苦，或者觉得不是很值得..."></textarea>
 
                 <button type="button" class="btn" onclick="submitData()">提交并查看付款码</button>
             </div>
@@ -301,14 +301,14 @@
         if (condition === 'A') {
             // Condition A: 纯人工
             stimuliDiv.innerHTML = `
-            <p>刚才你参与的这场跑团中，剧情推进和你所接触到的所有 NPC 对话，是由 <span class="stimuli-highlight">主持人本人</span> 在游戏过程中完成的。</p>
-            <p>在游戏过程中，<span class="stimuli-highlight">主持人独立参与</span> 内容的即时生成，根据玩家的选择不断展开剧情，并塑造 NPC 的性格与回应方式，以形成完整、连贯的跑团体验。</p>
+            <p>刚才你参与的这场游戏，人物配置、信息安排与整体平衡调整，是由 <span class="stimuli-highlight">说书人本人</span> 在游戏前与过程中独立完成的。</p>
+            <p>在此过程中，<span class="stimuli-highlight">说书人独立参与</span> 了底层逻辑的运算与把控，以确保游戏的逻辑严密性与体验的平衡，从而形成完整、连贯的游戏体验。</p>
         `;
         } else {
             // Condition B: 人机协作
             stimuliDiv.innerHTML = `
-            <p>刚才你参与的这场跑团中，剧情推进和你所接触到的所有 NPC 对话，是由 <span class="stimuli-highlight">主持人和一个公开的 AI 大模型</span> 协作完成的。</p>
-            <p>在游戏过程中，<span class="stimuli-highlight">主持人与 AI 共同参与</span> 内容的即时生成，根据玩家的选择不断展开剧情，并塑造 NPC 的性格与回应方式，以形成完整、连贯的跑团体验。</p>
+            <p>刚才你参与的这场游戏，人物配置、信息安排与整体平衡调整，是由 <span class="stimuli-highlight">说书人和一个公开的 AI 大模型</span> 协作完成的。</p>
+            <p>在此过程中，<span class="stimuli-highlight">说书人与 AI 共同参与</span> 了底层逻辑的运算与把控，以确保游戏的逻辑严密性与体验的平衡，从而形成完整、连贯的游戏体验。</p>
         `;
         }
 
@@ -328,8 +328,8 @@
 
         function validateWTP() {
             const amount = parseFloat(document.getElementById('wtp').value);
-            if (isNaN(amount) || amount < 29.9) {
-                alert("为了覆盖基础成本，金额不能低于 29.9 元哦");
+            if (isNaN(amount) || amount < 25) {
+                alert("为了覆盖基础成本，金额不能低于 25 元哦");
                 return;
             }
             nextStep(4);

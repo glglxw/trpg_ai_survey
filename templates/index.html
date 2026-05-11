@@ -172,11 +172,11 @@
             <!-- 步骤 3: 核心因变量 WTP -->
             <div class="step" id="step3">
                 <h2>支付金额确认</h2>
-                <p>为了维持店铺运营，我们设定了 <strong> 20 元</strong> 的基础成本价。</p>
+                <p>为了维持店铺运营，我们设定了 <strong id="base-cost-display"></strong> 的基础成本价。</p>
                 <p>基于您刚才的体验以及对制作过程的了解，您可以在此基础上增加任意金额（或不增加），作为本次游戏的最终服务费。</p>
                 <p><strong>请你先独立思考，不要与其他玩家讨论。</strong></p>
                 <label for="wtp">您愿意为本场游戏支付的总金额 (元)：</label>
-                <input type="number" id="wtp" step="0.1" min="20" placeholder="最低 20，上不封顶">
+                <input type="number" id="wtp" step="0.1" placeholder="上不封顶">
 
                 <button type="button" class="btn" onclick="validateWTP()">确认金额</button>
             </div>
@@ -271,6 +271,9 @@
     </div>
 
     <script>
+        // 基础成本价常量（元）
+        const MIN_AMOUNT = 20;
+
         // 随机分配组别 (A=Control/Human, B=Exp/AI)
         // 优先读取 URL 参数 ?c=A 或 ?c=B (便于测试)
         // 否则读取本地存储 (保持用户一致性)
@@ -294,6 +297,12 @@
                 localStorage.setItem('exp_condition', condition);
             }
         }
+
+        // 用常量填充 HTML 中的动态内容
+        document.getElementById('base-cost-display').textContent = MIN_AMOUNT + ' 元';
+        const wtpInput = document.getElementById('wtp');
+        wtpInput.min = MIN_AMOUNT;
+        wtpInput.placeholder = '最低 ' + MIN_AMOUNT + '，上不封顶';
 
         // 设置刺激物文案
         const stimuliDiv = document.getElementById('stimuli-text');
@@ -328,8 +337,8 @@
 
         function validateWTP() {
             const amount = parseFloat(document.getElementById('wtp').value);
-            if (isNaN(amount) || amount < 25) {
-                alert("为了覆盖基础成本，金额不能低于 25 元哦");
+            if (isNaN(amount) || amount < MIN_AMOUNT) {
+                alert(`为了覆盖基础成本，金额不能低于 ${MIN_AMOUNT} 元哦`);
                 return;
             }
             nextStep(4);

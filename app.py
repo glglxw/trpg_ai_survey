@@ -54,6 +54,7 @@ def submit():
             
         return jsonify({"status": "success", "message": "Data saved"})
     except Exception as e:
+        app.logger.exception(f"Error saving submission data: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':
